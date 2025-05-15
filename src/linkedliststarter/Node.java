@@ -16,6 +16,20 @@ public class Node {
         train = t;
         node = n;
     }
+
+    /**
+     * @return the node
+     */
+    public Node getNode() {
+        return node;
+    }
+
+    /**
+     * @param node the node to set
+     */
+    public void setNode(Node node) {
+        this.node = node;
+    }
     
     
 }
