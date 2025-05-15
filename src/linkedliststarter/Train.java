@@ -4,21 +4,31 @@
  */
 package linkedliststarter;
 
+import java.awt.Color;
+
 /**
  *
  * @author michael.roy-diclemen
  */
-public class Data implements Comparable{
+public class Train implements Comparable<Train>{
+    
+    private Color color;
+    private int type;
     
     @Override
     public String toString(){
         return null;
     }
     
+    public Train(Color color,int type) {
+        this.color = color;
+        this.type = type;
+    }
+    
     @Override
     public boolean equals(Object o){
         //anything not of type Data is false
-        if (! (o instanceof Data))
+        if (! (o instanceof Train))
             return false;
         //add code to properly compare
         
@@ -27,8 +37,7 @@ public class Data implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
-        
-        return 0;
+    public int compareTo(Train o) {
+        return this.type - o.type;
     }
 }

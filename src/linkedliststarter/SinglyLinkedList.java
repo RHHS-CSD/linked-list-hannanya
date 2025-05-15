@@ -77,7 +77,7 @@ public class SinglyLinkedList implements ILinkedList{
      * @return true if successfuuly added, false otherwise
      */
     @Override
-    public boolean add(String item) {
+    public boolean add(Train item) {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
 
@@ -88,7 +88,7 @@ public class SinglyLinkedList implements ILinkedList{
      * @return true if successfuuly added, false otherwise
      */
     @Override
-    public boolean add(String item, int index) {
+    public boolean add(Train item, int index) {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
     
