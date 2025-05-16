@@ -9,8 +9,8 @@ package linkedliststarter;
  * @author michael.roy-diclemen
  */
 public class Node {
-    private Train train;
-    private Node node;
+    Train train;
+    Node node;
     
     public Node(Train t, Node n) {
         train = t;

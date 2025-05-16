@@ -48,7 +48,94 @@ public class SinglyLinkedList implements ILinkedList{
      */
     @Override
     public boolean remove(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        if (index < 0) {
+            System.out.println("Invalid index");
+            return false;
+        }
+        
+        // if head
+        if (index == 0) {
+            if (head != null) {
+                head = head.node;
+                return true;
+            }
+            else {
+                System.out.println("List is empty");
+            }
+            return false;
+        }
+        
+        Node current = head;
+        int count = 0;
+        
+        // traverse to node
+        while (current != null && count < index - 1) {
+            current = current.node;
+            count++;
+        }
+        
+        // index out of bounds
+        if (current == null || current.node == null) {
+            System.out.println("Index out of bounds");
+            return false;
+        }
+        
+        // skip to next node to "remove"
+        current.node = (current.node).node;
+        return true;
+    }
+    
+    /**
+     * Swap the items m and n in the list
+     * @param m first item to be swapped
+     * @param n second item to be swapped
+     */
+    public void swap(int m, int n) {
+        if (m == n) {
+            return;
+        }
+        
+        // make n the greater index for simplicity
+        if (m > n) {
+            int temp = m;
+            m = n;
+            n = temp;
+        }
+        
+        // prev and current nodes for m and n
+        Node m0 = null;
+        Node m1 = head;
+        Node n0 = null;
+        Node n1 = head;
+        
+        // traverse to mth node
+        for (int i = 0; m1 != null && i < m; i++) {
+            m0 = m1;
+            m1 = m1.node;
+        }
+        
+        // traverse to nth node
+        for (int i = 0; n1 != null && i < n; i++) {
+            n0 = n1;
+            n1 = n1.node;
+        }
+        
+        if (m1 == null || n1 == null) {
+            System.out.println("Invalid indices");
+            return;
+        }
+        
+        if (m0 != null) {
+            m0.node = n1;
+        }
+        else {
+            head = n1;
+        }
+        
+        // swap pointers
+        Node temp = m1.node;
+        m1.node = n1.node;
+        n1.node = temp;
     }
 
     /**
