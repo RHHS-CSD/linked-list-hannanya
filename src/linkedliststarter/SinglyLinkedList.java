@@ -54,41 +54,41 @@ public class SinglyLinkedList implements ILinkedList {
             System.out.println("Invalid index");
             return false;
         }
-        
+
         // if head
         if (index == 0) {
             if (head != null) {
                 head = head.node;
                 return true;
-            }
-            else {
+            } else {
                 System.out.println("List is empty");
             }
             return false;
         }
-        
+
         Node current = head;
         int count = 0;
-        
+
         // traverse to node
         while (current != null && count < index - 1) {
             current = current.node;
             count++;
         }
-        
+
         // index out of bounds
         if (current == null || current.node == null) {
             System.out.println("Index out of bounds");
             return false;
         }
-        
+
         // skip to next node to "remove"
         current.node = (current.node).node;
         return true;
     }
-    
+
     /**
      * Swap the items m and n in the list
+     *
      * @param m first item to be swapped
      * @param n second item to be swapped
      */
@@ -96,44 +96,43 @@ public class SinglyLinkedList implements ILinkedList {
         if (m == n) {
             return;
         }
-        
+
         // make n the greater index for simplicity
         if (m > n) {
             int temp = m;
             m = n;
             n = temp;
         }
-        
+
         // prev and current nodes for m and n
         Node m0 = null;
         Node m1 = head;
         Node n0 = null;
         Node n1 = head;
-        
+
         // traverse to mth node
         for (int i = 0; m1 != null && i < m; i++) {
             m0 = m1;
             m1 = m1.node;
         }
-        
+
         // traverse to nth node
         for (int i = 0; n1 != null && i < n; i++) {
             n0 = n1;
             n1 = n1.node;
         }
-        
+
         if (m1 == null || n1 == null) {
             System.out.println("Invalid indices");
             return;
         }
-        
+
         if (m0 != null) {
             m0.node = n1;
-        }
-        else {
+        } else {
             head = n1;
         }
-        
+
         // swap pointers
         Node temp = m1.node;
         m1.node = n1.node;
@@ -148,18 +147,41 @@ public class SinglyLinkedList implements ILinkedList {
      */
     @Override
     public int indexOf(Train item) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Node search = head;
+        if (head == null) {
+            return -1;
+        }
+        int count = 0;
+        do {
+            if (search.train == item) {
+                return count;
+            }
+            search = search.getNode();
+            count++;
+        } while (search != null);
+        return -1;
     }
 
-    /**
-     * Retrieves the Data at the given index
-     *
-     * @param index The index to be retrieved
-     * @return The data item, null if bad index
-     */
-    @Override
-    public Train get(int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+/**
+ * Retrieves the Data at the given index
+ *
+ * @param index The index to be retrieved
+ * @return The data item, null if bad index
+ */
+@Override
+public Train get(int index) {
+        if (index <0) {
+            return null;
+        }
+        Node search = head;
+        for (int i = 0; i < index - 1; i++) {
+            search = search.getNode();
+            if (search==tail && index>i+2) {
+                return null;
+            }
+        }
+        return search.train;
     }
 
     /**
@@ -169,7 +191,7 @@ public class SinglyLinkedList implements ILinkedList {
      * @return true if successfuuly added, false otherwise
      */
     @Override
-    public boolean add(Train item) {
+public boolean add(Train item) {
         Node n = new Node(item, null);
         if (head != null) {
             tail.setNode(n);
@@ -191,7 +213,7 @@ public class SinglyLinkedList implements ILinkedList {
      * @return true if successfuuly added, false otherwise
      */
     @Override
-    public boolean add(Train item, int index) {
+public boolean add(Train item, int index) {
         Node n = new Node(item, null);
         if (head == null) {
             head = n;
@@ -200,16 +222,21 @@ public class SinglyLinkedList implements ILinkedList {
         } else if (index==0) {
             n.setNode(head);
             head = n;
+        } else if (index<0) {
+            return false;
         }
         Node search = head;
         for (int i = 0; i < index - 1; i++) {
             search = search.getNode();
+            if (search==tail && index>i+2) {
+                return false;
+            }
         }
         n.setNode(search.getNode());
         if (search.getNode() == null) {
             search.setNode(n);
             tail = n;
-            return false;
+            return true;
         } else {
             search.setNode(n);
             return false;
