@@ -21,7 +21,7 @@ public class SinglyLinkedList implements ILinkedList {
     @Override
     public int size() {
         int count = 0;
-        Node current = head;
+        Node current = getHead();
         // traverse to end of list
         while (current != null) {
             count++;
@@ -35,8 +35,8 @@ public class SinglyLinkedList implements ILinkedList {
      */
     @Override
     public void clear() {
-        head = null;
-        tail = null;
+        setHead(null);
+        setTail(null);
     }
 
     /**
@@ -66,8 +66,8 @@ public class SinglyLinkedList implements ILinkedList {
 
         // if head
         if (index == 0) {
-            if (head != null) {
-                head = head.node;
+            if (getHead() != null) {
+                setHead(getHead().node);
                 return true;
             } else {
                 System.out.println("List is empty");
@@ -75,7 +75,7 @@ public class SinglyLinkedList implements ILinkedList {
             return false;
         }
 
-        Node current = head;
+        Node current = getHead();
         int count = 0;
 
         // traverse to node
@@ -115,9 +115,9 @@ public class SinglyLinkedList implements ILinkedList {
 
         // prev and current nodes for m and n
         Node m0 = null;
-        Node m1 = head;
+        Node m1 = getHead();
         Node n0 = null;
-        Node n1 = head;
+        Node n1 = getHead();
 
         // traverse to mth node
         for (int i = 0; m1 != null && i < m; i++) {
@@ -139,7 +139,7 @@ public class SinglyLinkedList implements ILinkedList {
         if (m0 != null) {
             m0.node = n1;
         } else {
-            head = n1;
+            setHead(n1);
         }
 
         // swap pointers
@@ -156,13 +156,13 @@ public class SinglyLinkedList implements ILinkedList {
      */
     @Override
     public int indexOf(Train item) {
-        Node search = head;
-        if (head == null) {
+        Node search = getHead();
+        if (getHead() == null) {
             return -1;
         }
         int count = 0;
         do {
-            if (search.train == item) {
+            if (search.train.compareTo(item)==0) {
                 return count;
             }
             search = search.getNode();
@@ -183,10 +183,10 @@ public Train get(int index) {
         if (index <0) {
             return null;
         }
-        Node search = head;
+        Node search = getHead();
         for (int i = 0; i < index - 1; i++) {
             search = search.getNode();
-            if (search==tail && index>i+2) {
+            if (search==null) {
                 return null;
             }
         }
@@ -202,13 +202,13 @@ public Train get(int index) {
     @Override
 public boolean add(Train item) {
         Node n = new Node(item, null);
-        if (head != null) {
-            tail.setNode(n);
-            tail = n;
+        if (getHead() != null) {
+            getTail().setNode(n);
+            setTail(n);
             return true;
-        } else if (head == null || tail == null) {
-            tail = n;
-            head = n;
+        } else if (getHead() == null || getTail() == null) {
+            setTail(n);
+            setHead(n);
             return true;
         }
         return false;
@@ -224,27 +224,27 @@ public boolean add(Train item) {
     @Override
 public boolean add(Train item, int index) {
         Node n = new Node(item, null);
-        if (head == null) {
-            head = n;
-            tail = n;
+        if (getHead() == null) {
+            setHead(n);
+            setTail(n);
             return true;
         } else if (index==0) {
-            n.setNode(head);
-            head = n;
+            n.setNode(getHead());
+            setHead(n);
         } else if (index<0) {
             return false;
         }
-        Node search = head;
+        Node search = getHead();
         for (int i = 0; i < index - 1; i++) {
             search = search.getNode();
-            if (search==tail && index>i+2) {
+            if (search==getTail() && index>i+2) {
                 return false;
             }
         }
         n.setNode(search.getNode());
         if (search.getNode() == null) {
             search.setNode(n);
-            tail = n;
+            setTail(n);
             return true;
         } else {
             search.setNode(n);
@@ -253,10 +253,47 @@ public boolean add(Train item, int index) {
     }
     
     public boolean join(SinglyLinkedList other) {
-        tail.setNode(other.head);
-        tail = other.tail;
-        other.head = head;
+        getTail().setNode(other.getHead());
+        setTail(other.getTail());
         return true;
     }
+
+    /**
+     * @return the head
+     */
+    public Node getHead() {
+        return head;
+    }
+
+    /**
+     * @param head the head to set
+     */
+    public void setHead(Node head) {
+        this.head = head;
+    }
+
+    /**
+     * @return the tail
+     */
+    public Node getTail() {
+        return tail;
+    }
+
+    /**
+     * @param tail the tail to set
+     */
+    public void setTail(Node tail) {
+        this.tail = tail;
+    }
     
+    public String toString() {
+        String text = "";
+        Node current = getHead();
+        // traverse to end of list
+        while (current != null) {
+            text = text + current.train.getType();
+            current = current.node;
+        }
+        return text;
+    }
 }
