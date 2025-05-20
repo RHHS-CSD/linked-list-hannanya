@@ -36,6 +36,7 @@ public class SinglyLinkedList implements ILinkedList {
     @Override
     public void clear() {
         head = null;
+        tail = null;
     }
 
     /**
@@ -46,7 +47,8 @@ public class SinglyLinkedList implements ILinkedList {
      */
     @Override
     public boolean remove(Train item) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int index = indexOf(item);
+        return remove(index);
     }
 
     /**
